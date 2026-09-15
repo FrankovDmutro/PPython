@@ -23,6 +23,9 @@ def average_result(
     experiments: list[Experiment],
 ) -> float:
     """Calculate the average result of the experiments"""
+    if not experiments:
+        return 0.0
+    
     total = 0
     for exp in experiments:
         total += exp.result
@@ -35,6 +38,9 @@ def min_max_result(
     experiments: list[Experiment],
 ) -> tuple[Experiment, Experiment]:
     """Calculate the minimum and maximum result of the experiments"""
+    if not experiments:
+        return None
+    
     min_exp = min(experiments, key=lambda x: x.result)
     max_exp = max(experiments, key=lambda x: x.result)
 
