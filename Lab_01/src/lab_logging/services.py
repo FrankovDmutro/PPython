@@ -1,4 +1,4 @@
-from lab_logging.models import Experiment
+from .models import Experiment
 
 def add_experiment(
     experiments: list[Experiment],
