@@ -3,8 +3,8 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lab-logging"
-description = "Laboratory work for experiment tracking"
+name = "data_processor"
+description = "Data processor"
 version = "0.2.0"
 requires-python = ">=3.10"
 
