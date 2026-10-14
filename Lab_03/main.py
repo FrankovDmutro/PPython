@@ -1,13 +1,13 @@
 import csv
 import time
 import tracemalloc
-from itertools import islice
+from itertools import islice, takewhile
 from pathlib import Path
 
 from log_processor.analytics import calculate_log_summary, group_consecutive_levels
 from log_processor.batches import batched_logs
 from log_processor.filters import find_by_request_id
-from log_processor.models import LogRecord
+from log_processor.models import LogRecord, SimpleLogRangeIterator
 from log_processor.pipeline import build_log_pipeline
 
 
