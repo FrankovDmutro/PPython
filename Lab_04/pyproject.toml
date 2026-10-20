@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "experiment-system"
+version = "0.1.0"
+description = "Scientific Experiment Management System (Lab 4)"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.10",
+]
+
+[project.scripts]
+experiment-system = "experiment_system.main:main"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_return_any = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
