@@ -1,0 +1,11 @@
+experiment_id,name,researcher,parameter,result,date
+EXP-101,Thermal Dynamics,Dr. Smith,temperature,298.15,2026-03-01
+EXP-102,Vacuum Pressure,Dr. Frankov,pressure,101.325,2026-03-02
+EXP-103,Semiconductor Voltage,Dr. Alan,voltage,3.35,2026-03-03
+EXP-104,Inductive Current,Dr. Frankov,current,12.5,2026-03-04
+EXP-105,Chamber Humidity,Dr. Taylor,humidity,45.2,2026-03-05
+EXP-106,Gamma Radiation,Dr. Frankov,radiation,0.18,2026-03-06
+EXP-107,Laser Thermal Stress,Dr. Smith,temperature,373.15,2026-03-07
+EXP-108,Atmospheric Drop,Dr. Frankov,pressure,98.7,2026-03-08
+EXP-109,Power Supply Test,Dr. Alan,voltage,5.02,2026-03-09
+EXP-110,Cryo Cooling,Dr. Frankov,temperature,77.36,2026-03-10

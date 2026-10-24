@@ -1,0 +1,22 @@
+input:
+  path: data/experiments.csv
+
+output:
+  path: output/experiments.json
+  summary_path: output/summary.json
+
+processing:
+  allowed_parameters:
+    - temperature
+    - pressure
+    - voltage
+    - current
+    - humidity
+    - radiation
+  min_result: 0.0
+  max_result: 10000.0
+  skip_invalid: true
+
+logging:
+  level: INFO
+  path: logs/experiment_importer.log
