@@ -17,3 +17,5 @@ labs/
 logs/
 output/
 *.tmp
+*.zip
+
