@@ -18,6 +18,9 @@ logs/
 output/
 *.tmp
 *.zip
+*.db
+*.sqlite
+*.sqlite3
 .pytest_cache/
 .coverage
 htmlcov/
