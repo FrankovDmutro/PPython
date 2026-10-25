@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "experiment-tracker"
+version = "0.1.0"
+description = "Scientific Experiment Tracking and Testing System (Lab 6, Variant 15)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-asyncio>=0.23",
+    "mypy>=1.10",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --strict-markers"
+asyncio_mode = "auto"
+markers = [
+    "unit: Unit tests focusing on isolated components",
+    "integration: Integration tests testing cross-module interactions",
+    "async_test: Tests covering asynchronous operations",
+    "experiment: Laboratory methodological experiments",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["experiment_tracker"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "\\.\\.\\.",
+]

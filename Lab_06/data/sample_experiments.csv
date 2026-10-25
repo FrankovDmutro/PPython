@@ -1,0 +1,7 @@
+experiment_id,title,researcher,department,parameter,unit,value,date
+EXP-101,Thermal Calibration,Dr. Frankov,Quantum Physics,temperature,celsius,24.5,2026-04-01
+EXP-102,Vacuum Chamber Drop,Dr. Smith,Applied Physics,pressure,pascal,101325.0,2026-04-02
+EXP-103,Semiconductor Bias,Dr. Frankov,Quantum Physics,voltage,volt,3.31,2026-04-03
+EXP-104,Coil Induction,Dr. Alan,Electrodynamics,current,ampere,1.85,2026-04-04
+EXP-105,Laser Crystal Heat,Dr. Frankov,Quantum Physics,temperature,celsius,78.2,2026-04-05
+EXP-106,Atmospheric Sensor,Dr. Taylor,Atmospheric Lab,pressure,pascal,99800.0,2026-04-06
