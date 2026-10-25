@@ -131,3 +131,18 @@ def test_experiment_service_full_lifecycle_integration(tmp_path: Path, sample_re
     exported_path = service.export_experiment(exp.id, out_file)
     assert exported_path.is_file()
     assert exported_path.stat().st_size > 0
+
+    # 5. Search by researcher
+    found = service.search_by_researcher("Dr. Frankov")
+    assert len(found) == 1
+    assert found[0].id == exp.id
+
+
+@pytest.mark.unit
+def test_statistical_analysis_empty_experiment(sample_experiment: Experiment) -> None:
+    """Test statistical analysis strategy handles empty experiment gracefully."""
+    strategy = StatisticalAnalysisStrategy()
+    summary = strategy.compute_summary(sample_experiment)
+    assert summary["measurements_count"] == 0
+    assert summary["average"] == 0.0
+
