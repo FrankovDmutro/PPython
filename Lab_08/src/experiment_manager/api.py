@@ -9,6 +9,8 @@ from sqlalchemy.orm import Session
 from experiment_manager.database import get_db, init_db
 from experiment_manager.repositories import ExperimentRepository, ResearcherRepository
 from experiment_manager.schemas import (
+    BatchStatisticsResponse,
+    ConcurrentStatisticsRequest,
     ExperimentCreate,
     ExperimentResponse,
     ExperimentUpdate,
@@ -168,6 +170,73 @@ def get_researcher_statistics(
         average=avg_res,
         min=min_res,
         max=max_res,
+    )
+
+
+@app.post(
+    "/researchers/batch-statistics",
+    response_model=BatchStatisticsResponse,
+    summary="Concurrent statistics aggregation for multiple researchers",
+    tags=["Researchers", "Statistics", "Async"],
+)
+async def get_batch_researcher_statistics(
+    payload: ConcurrentStatisticsRequest,
+    db: Session = Depends(get_db),
+):
+    """Asynchronously collect statistics across multiple researchers concurrently using Semaphore and Task/gather."""
+    import time
+    import asyncio
+
+    start_time = time.perf_counter()
+    r_repo = ResearcherRepository(db)
+    e_repo = ExperimentRepository(db)
+
+    semaphore = asyncio.Semaphore(payload.max_concurrency)
+
+    async def _fetch_single(r_id: int) -> Optional[ResearcherStatisticsResponse]:
+        async with semaphore:
+            # Non-blocking simulation with asyncio
+            await asyncio.sleep(0.01)
+            researcher = r_repo.get_by_id(r_id)
+            if not researcher:
+                return None
+            count, avg_res, min_res, max_res = e_repo.get_statistics(researcher_id=r_id)
+            return ResearcherStatisticsResponse(
+                researcher_id=researcher.id,
+                researcher_name=researcher.name,
+                count=count,
+                average=avg_res,
+                min=min_res,
+                max=max_res,
+            )
+
+    tasks = [asyncio.create_task(_fetch_single(rid)) for rid in payload.researcher_ids]
+    try:
+        results = await asyncio.wait_for(
+            asyncio.gather(*tasks, return_exceptions=True),
+            timeout=payload.timeout_seconds,
+        )
+    except asyncio.TimeoutError:
+        raise HTTPException(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            detail=f"Batch operation exceeded timeout of {payload.timeout_seconds}s",
+        )
+
+    successful_items: List[ResearcherStatisticsResponse] = []
+    failed_count = 0
+    for item in results:
+        if isinstance(item, ResearcherStatisticsResponse):
+            successful_items.append(item)
+        else:
+            failed_count += 1
+
+    duration = round(time.perf_counter() - start_time, 4)
+    return BatchStatisticsResponse(
+        total_queries=len(payload.researcher_ids),
+        successful_queries=len(successful_items),
+        failed_queries=failed_count,
+        results=successful_items,
+        duration_seconds=duration,
     )
 
 
