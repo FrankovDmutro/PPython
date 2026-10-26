@@ -25,3 +25,4 @@ output/
 .coverage
 htmlcov/
 
+generate_report.py
