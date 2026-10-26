@@ -1,6 +1,6 @@
 """SQLAlchemy 2.0 ORM models for scientific experiments tracking."""
 
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from typing import List, Optional
 from sqlalchemy import Date, DateTime, Float, ForeignKey, Integer, String, Text, event
 from sqlalchemy.engine import Engine
@@ -20,7 +20,9 @@ class Researcher(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
     department: Mapped[str] = mapped_column(String(100), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc), nullable=False
+    )
 
     experiments: Mapped[List["Experiment"]] = relationship(
         "Experiment",

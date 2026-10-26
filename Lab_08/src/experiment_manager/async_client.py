@@ -30,7 +30,13 @@ async def fetch_with_retry(
 
     for attempt in range(1, retries + 1):
         try:
-            response = await client.get(url, timeout=timeout)
+            try:
+                response = await asyncio.wait_for(
+                    client.get(url, timeout=timeout), timeout=timeout
+                )
+            except asyncio.TimeoutError as te:
+                raise httpx.ReadTimeout(f"Request to {url} timed out after {timeout}s") from te
+
             # If server error (5xx), raise to trigger retry
             if response.status_code >= 500:
                 response.raise_for_status()

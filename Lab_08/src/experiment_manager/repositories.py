@@ -147,7 +147,10 @@ class ExperimentRepository:
         if researcher_id is not None:
             stmt = stmt.where(Experiment.researcher_id == researcher_id)
 
-        count, avg_res, min_res, max_res = self.session.execute(stmt).one()
+        row = self.session.execute(stmt).first()
+        if not row:
+            return 0, None, None, None
+        count, avg_res, min_res, max_res = row
         avg_rounded = round(float(avg_res), 2) if avg_res is not None else None
         min_val = round(float(min_res), 2) if min_res is not None else None
         max_val = round(float(max_res), 2) if max_res is not None else None
